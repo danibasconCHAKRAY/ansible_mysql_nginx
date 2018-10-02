@@ -1,0 +1,21 @@
+[hosts]
+nodo3 ansible_host=192.168.26.101 ansible_user=vagrant
+nodo4 ansible_host=192.168.26.102 ansible_user=vagrant
+
+[bbdd1]
+nodo3
+
+[bbdd1:vars]
+mysql_user="bascon"
+mysql_bbdd="bascon"
+mysql_pass="bascon"
+ip_hosts="localhost"
+
+[bbdd2]
+nodo4
+
+[bbdd2:vars]
+mysql_user="dani"
+mysql_bbdd="dani"
+mysql_pass="dani"
+ip_hosts="localhost"

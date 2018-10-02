@@ -1,0 +1,12 @@
+---
+- name: Install MySQL
+  hosts: hosts
+  become: true
+  roles:
+    - mysql
+
+- name: Install Nginx
+  hosts: hosts
+  become: true
+  roles:
+    - nginx

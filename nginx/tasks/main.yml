@@ -1,0 +1,34 @@
+---
+
+- name: Install nginx
+  apt: name=nginx state=latest update_cache=yes
+
+- name: Configuracion nginx
+  copy: 
+    src=default.conf 
+    dest=/etc/nginx/sites-available/default
+  notify: restart nginx
+
+- name: Install php-fpm
+  apt: name={{ item }} state=latest update_cache=yes
+  with_items:
+    - php7.0-fpm
+    - php7.0
+    - php7.0-mysql
+
+- name: install unzip
+  apt:
+    name: unzip
+    update_cache: yes
+
+- name: Descargando Wordpress
+  unarchive: 
+    src=wordpress-4.9.2-es_ES.zip 
+    dest=/srv 
+    owner=www-data 
+    group=www-data
+
+- name: Migrando Wordpress
+  template: 
+    src=wp-config.php 
+    dest=/srv/wordpress

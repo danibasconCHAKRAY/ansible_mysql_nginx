@@ -1,0 +1,32 @@
+---
+- name: Install Mysql package
+  apt: name={{ item }} state=present
+  with_items:
+   - mysql-server
+   - python-mysqldb
+
+- name: Install mysql
+  apt: name={{ item }} state=present
+  with_items:
+    - mysql-server
+    - python-mysqldb
+
+- name: Configuracion mysql
+  copy: 
+        src=my.cnf  
+        dest=/etc/mysql/mariadb.conf.d/50-server.cnf
+
+- name: Creando base de datos
+  mysql_db: name={{ mysql_bbdd }} state=present
+
+- name: Creando usuario
+  mysql_user: name={{ mysql_user }} password={{ mysql_pass }} priv={{ mysql_bbdd }}.*:ALL host=% state=present
+
+- name: Copiando BBDD Wordpress
+  template: 
+    src=mysql.j2 
+    dest=/home/vagrant/mysql.sql
+
+- name: Migrando BBDD Wordpress
+  mysql_db: name={{ mysql_bbdd }} state=import target=/home/vagrant/mysql.sql
+
